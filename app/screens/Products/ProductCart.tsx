@@ -45,7 +45,7 @@ const ProductCart = () => {
   };
 
   const handleDelete = () => {
-    showToast('success', 'Informasi', 'Berhasil dihapus dari favorit', 'TOP');
+    showToast('success', 'Informasi', 'Berhasil dihapus dari favorit');
     if (selectedItemId !== null) {
       dispatch(removeFromCart(selectedItemId));
       setSelectedItemId(null);

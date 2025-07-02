@@ -5,33 +5,79 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ScrollView,
   Dimensions,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../routes';
+import images from '../../helper/images';
 
 const { width } = Dimensions.get('window');
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+const menus = [
+  {
+    title: 'Products',
+    icon: 'grid-outline',
+    screen: 'ListProduct',
+  },
+  {
+    title: 'Favorites',
+    icon: 'heart-outline',
+    screen: 'FavouriteProducts',
+  },
+  {
+    title: 'Cart',
+    icon: 'cart-outline',
+    screen: 'ProductCart',
+  },
+
+  {
+    title: 'Profile',
+    icon: 'person-outline',
+    screen: 'Profile',
+  },
+];
+
+const randomNames = ['Amir', 'Faisal', 'John', 'Sarah', 'Nina', 'Leo', 'Tariq'];
+const randomName = randomNames[Math.floor(Math.random() * randomNames.length)];
+
 const Homepage: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
+
+  const handleNavigate = (screen: keyof RootStackParamList) => {
+    navigation.navigate(screen);
+  };
+
   return (
-    <View style={styles.container}>
-      <Image
-        source={{
-          uri: 'https://source.unsplash.com/800x600/?technology,product',
-        }}
-        style={styles.banner}
-        resizeMode="cover"
-      />
+    <ScrollView style={styles.container}>
+      <Image source={images.banner1} style={styles.banner} resizeMode="cover" />
 
-      <View style={styles.content}>
-        <Text style={styles.title}>Welcome to Productio!</Text>
-        <Text style={styles.subtitle}>
-          Discover the best products curated just for you.
-        </Text>
+      <View style={styles.menuSection}>
+        <Text style={styles.greeting}>Hello, {randomName}! 👋</Text>
+        <Text style={styles.sectionTitle}>Menu</Text>
 
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Explore Products</Text>
-        </TouchableOpacity>
+        <View style={styles.menuGrid}>
+          {menus.map((menu, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.menuItem}
+              onPress={() =>
+                handleNavigate(menu.screen as keyof RootStackParamList)
+              }
+            >
+              <View style={styles.iconWrapper}>
+                <Ionicons name={menu.icon} size={30} color="#007AFF" />
+              </View>
+              <Text style={styles.menuText}>{menu.title}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -44,41 +90,54 @@ const styles = StyleSheet.create({
   },
   banner: {
     width: width,
-    height: width * 0.7,
+    height: width * 0.5,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
   },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 24,
+  menuSection: {
+    paddingHorizontal: 24,
+    paddingTop: 20,
+    paddingBottom: 40,
   },
-  title: {
-    fontSize: 28,
+  sectionTitle: {
+    fontSize: 22,
     fontWeight: '700',
-    marginVertical: 16,
-    color: '#333333',
+    marginBottom: 20,
     textAlign: 'center',
+    color: '#222',
   },
-  subtitle: {
-    fontSize: 16,
-    color: '#666666',
+  greeting: {
+    fontSize: 18,
+    fontWeight: '500',
+    marginBottom: 10,
     textAlign: 'center',
-    marginBottom: 32,
-    paddingHorizontal: 10,
+    color: '#555',
   },
-  button: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 14,
-    paddingHorizontal: 32,
+  menuGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 16,
+  },
+  menuItem: {
+    width: '45%',
+    aspectRatio: 1,
     borderRadius: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 8,
-    elevation: 5,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
   },
-  buttonText: {
-    color: '#ffffff',
-    fontWeight: '600',
-    fontSize: 16,
+
+  iconWrapper: {
+    marginBottom: 6,
+  },
+  menuText: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#444',
+    textAlign: 'center',
   },
 });

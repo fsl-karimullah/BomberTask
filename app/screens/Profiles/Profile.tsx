@@ -8,22 +8,21 @@ import {
 } from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import images from '../../helper/images';
 
 const Profile = () => {
   const user = {
     name: 'Amir Faisal',
-    email: 'johndoe@example.com',
-    location: 'San Francisco, CA',
-    phone: '+1 234 567 890',
-    bio: 'Passionate mobile developer. Coffee lover. Explorer of tech.',
-    avatar:
-      'https://i.pravatar.cc/300',
+    email: 'faisalbic123@gmail.com',
+    location: 'Dummmy address, City, Country',
+    phone: '087826563459',
+    bio: 'Passionate mobile developer. Coffee lover. Explorer of tech.'
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
-        <Image source={{ uri: user.avatar }} style={styles.avatar} />
+       <Image source={images.profileImg} style={styles.avatar} />
         <Text style={styles.name}>{user.name}</Text>
         <Text style={styles.email}>{user.email}</Text>
         <TouchableOpacity style={styles.editButton}>

@@ -18,6 +18,7 @@ import { TouchableOpacity } from 'react-native';
 import { endpoint } from '../../api/endpoint';
 import { addToCart, removeFromCart } from '../../redux/slices/cartSlice';
 import { toggleFavorite } from '../../redux/slices/favoritesSlice';
+import { showToast } from '../../helper/HelperFunction';
 
 const { width } = Dimensions.get('window');
 
@@ -28,11 +29,13 @@ const DetailProducts: React.FC = () => {
   const { productId } = route.params;
   const dispatch = useDispatch();
   const favorites = useSelector((state: RootState) => state.favorites.items);
-  const isFavorite = favorites.some(fav => fav.id === product?.id);
 
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
+  const isFavorite = React.useMemo(() => {
+    if (!product) return false;
+    return favorites.some(fav => fav.id === product.id);
+  }, [favorites, product]);
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const isInCart = cartItems.some(item => item.id === product?.id);
 
@@ -43,6 +46,26 @@ const DetailProducts: React.FC = () => {
       .catch(error => console.error('Error fetching product:', error))
       .finally(() => setLoading(false));
   }, [productId]);
+
+  const handleCartPress = () => {
+    if (isInCart) {
+      dispatch(removeFromCart(product.id));
+      showToast('info', 'Informasi', 'Berhasil dihapus dari keranjang');
+    } else {
+      dispatch(addToCart(product));
+      showToast('success', 'Informasi', 'Berhasil menambahkan ke keranjang');
+    }
+  };
+
+  const handleToggleFavorite = () => {
+    dispatch(toggleFavorite(product));
+
+    if (isFavorite) {
+      showToast('info', 'Informasi', 'Dihapus dari favorit');
+    } else {
+      showToast('success', 'Informasi', 'Berhasil ditambahkan ke favorit');
+    }
+  };
 
   if (loading) {
     return (
@@ -65,8 +88,12 @@ const DetailProducts: React.FC = () => {
       <Image source={{ uri: product.thumbnail }} style={styles.image} />
       <View style={styles.content}>
         <View style={styles.favoriteContainer}>
-          <Text style={styles.title}>{product.title}</Text>
-          <TouchableOpacity onPress={() => dispatch(toggleFavorite(product))}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.title} numberOfLines={2}>
+              {product.title}
+            </Text>
+          </View>
+          <TouchableOpacity onPress={handleToggleFavorite}>
             <Ionicons
               name={isFavorite ? 'heart' : 'heart-outline'}
               size={26}
@@ -97,9 +124,7 @@ const DetailProducts: React.FC = () => {
             styles.cartButton,
             isInCart ? styles.removeButton : styles.addButton,
           ]}
-          onPress={() =>
-            dispatch(isInCart ? removeFromCart(product.id) : addToCart(product))
-          }
+          onPress={handleCartPress}
         >
           <Text style={styles.cartButtonText}>
             {isInCart ? 'Remove from Cart' : 'Add to Cart'}
@@ -119,8 +144,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    paddingBottom: 20,
+    paddingBottom: 32,
     backgroundColor: '#fff',
+    flexGrow: 1,
+  },
+  buttonContainer: {
+    marginTop: 16,
+    marginBottom: 32,
+    alignItems: 'center',
   },
   image: {
     width,
@@ -131,11 +162,11 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '700',
     color: '#222',
-    marginBottom: 8,
   },
+
   price: {
     fontSize: 20,
     color: '#007AFF',
@@ -172,12 +203,9 @@ const styles = StyleSheet.create({
   favoriteContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 10,
-  },
-  buttonContainer: {
-    marginTop: 20,
-    alignItems: 'center',
+    gap: 12,
   },
   cartButton: {
     paddingVertical: 12,

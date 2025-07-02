@@ -24,6 +24,7 @@ import FavouriteProducts from '../screens/Products/FavouriteProducts';
 import ProductCart from '../screens/Products/ProductCart'; // 🔥 Add your cart screen here
 import { useSelector } from 'react-redux';
 import CheckoutPage from '../screens/Products/CheckoutPage';
+import { Product } from '../redux/slices/cartSlice';
 
 // Types
 export type RootTabParamList = {
@@ -37,6 +38,7 @@ export type RootTabParamList = {
 export type RootStackParamList = {
   Tabs: undefined;
   DetailProduct: { productId: string };
+  
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();

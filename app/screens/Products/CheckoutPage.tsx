@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
 
@@ -27,49 +28,54 @@ const CheckoutPage = () => {
   const { cartItems, total } = route.params;
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>🧾 Invoice Summary</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.header}>🧾 Invoice Summary</Text>
 
-      <View style={styles.section}>
-        <Text style={styles.label}>Date:</Text>
-        <Text style={styles.value}>{new Date().toLocaleDateString()}</Text>
-      </View>
+        <View style={styles.section}>
+          <Text style={styles.label}>Date:</Text>
+          <Text style={styles.value}>{new Date().toLocaleDateString()}</Text>
+        </View>
 
-      <FlatList
-        data={cartItems}
-        keyExtractor={item => item.id.toString()}
-        scrollEnabled={false}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Image source={{ uri: item.thumbnail }} style={styles.image} />
-            <View style={styles.itemInfo}>
-              <Text style={styles.itemTitle}>{item.title}</Text>
-              <Text style={styles.itemDetail}>
-                ${item.price.toFixed(2)} x {item.quantity}
-              </Text>
-              <Text style={styles.itemTotal}>
-                Total: ${(item.price * item.quantity).toFixed(2)}
-              </Text>
+        <FlatList
+          data={cartItems}
+          keyExtractor={item => item.id.toString()}
+          scrollEnabled={false}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <Image source={{ uri: item.thumbnail }} style={styles.image} />
+              <View style={styles.itemInfo}>
+                <Text style={styles.itemTitle}>{item.title}</Text>
+                <Text style={styles.itemDetail}>
+                  ${item.price.toFixed(2)} x {item.quantity}
+                </Text>
+                <Text style={styles.itemTotal}>
+                  Total: ${(item.price * item.quantity).toFixed(2)}
+                </Text>
+              </View>
             </View>
-          </View>
-        )}
-      />
+          )}
+        />
 
-      <View style={styles.totalWrapper}>
-        <Text style={styles.totalLabel}>Grand Total:</Text>
-        <Text style={styles.totalAmount}>${total.toFixed(2)}</Text>
-      </View>
-    </ScrollView>
+        <View style={styles.totalWrapper}>
+          <Text style={styles.totalLabel}>Grand Total:</Text>
+          <Text style={styles.totalAmount}>${total.toFixed(2)}</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default CheckoutPage;
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  container: {
     padding: 16,
+    paddingBottom: 80, // ✅ Extra space to avoid bottom tab bar
   },
   header: {
     fontSize: 22,

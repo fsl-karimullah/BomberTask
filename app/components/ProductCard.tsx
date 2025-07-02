@@ -24,7 +24,7 @@ type Props = {
   isFavorite: boolean;
   onToggleFavorite: () => void;
   onPress: () => void;
-  onAddToCart: () => void; 
+  onAddToCart: () => void;
   key: string | number;
 };
 
@@ -34,13 +34,16 @@ const ProductCard: React.FC<Props> = ({
   onToggleFavorite,
   onPress,
   onAddToCart,
-  key
+  key,
 }) => {
   return (
     <Pressable key={key} style={styles.card} onPress={onPress}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: product.thumbnail }} style={styles.image} />
-        <TouchableOpacity style={styles.favoriteIcon} onPress={onToggleFavorite}>
+        <TouchableOpacity
+          style={styles.favoriteIcon}
+          onPress={onToggleFavorite}
+        >
           <Ionicons
             name={isFavorite ? 'heart' : 'heart-outline'}
             size={22}
@@ -74,24 +77,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 16,
     margin: 8,
-    flex: 1,
     padding: 10,
     elevation: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 6,
+    alignSelf: 'center', 
+    width: width / 2 - 24, 
+    maxWidth: 180, 
   },
+  image: {
+    width: '100%',
+    height: 140,
+    resizeMode: 'cover',
+  },
+
   imageContainer: {
     position: 'relative',
     borderRadius: 12,
     overflow: 'hidden',
   },
-  image: {
-    width: width / 2 - 36,
-    height: 140,
-    resizeMode: 'cover',
-  },
+
   favoriteIcon: {
     position: 'absolute',
     top: 8,
@@ -137,7 +144,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginLeft: 6,
   },
-    priceCartRow: {
+  priceCartRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -147,5 +154,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#EAF4FF',
     borderRadius: 20,
   },
-
 });
