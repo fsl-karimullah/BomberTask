@@ -1,8 +1,10 @@
 const url = 'https://dummyjson.com';
 export const endpoint = {
-  getProduct: `${url}/products?limit=100`,
+  getProduct: (limit: number = 100) => `${url}/products?limit=${limit}`,
   getAllCategory: `${url}/products/categories`,
-  getProductDetail: (id: any) => `${url}/products/${id}`,
-  getProductDetailPagination: (id: any, limit: Int16Array, skip: any) =>
-    `${url}/products/?limit=10&skip=10`,
+  getProductDetail: (id: number | string) => `${url}/products/${id}`,
+  getProductPagination: (limit: number, skip: number) =>
+    `${url}/products?limit=${limit}&skip=${skip}`,
+  getProductByCategory: (category: string, limit: number, skip: number) =>
+    `${url}/products/category/${category}?limit=${limit}&skip=${skip}`,
 };

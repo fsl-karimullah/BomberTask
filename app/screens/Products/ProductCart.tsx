@@ -77,7 +77,6 @@ const ProductCart = () => {
         <Text style={styles.totalText}>Total: ${getTotal().toFixed(2)}</Text>
       </View>
 
-      {/* 🧾 Confirmation Modal */}
       <Modal
         animationType="fade"
         transparent={true}

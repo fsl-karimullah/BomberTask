@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 16,
-    paddingBottom: 80, // ✅ Extra space to avoid bottom tab bar
+    paddingBottom: 80, 
   },
   header: {
     fontSize: 22,

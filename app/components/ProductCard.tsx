@@ -61,7 +61,6 @@ const ProductCard: React.FC<Props> = ({
         </View>
       </View>
 
-      {/* Add to cart button */}
       <TouchableOpacity style={styles.cartButton} onPress={onAddToCart}>
         <Ionicons name="cart-outline" size={20} color="#fff" />
         <Text style={styles.cartButtonText}>Add to Cart</Text>

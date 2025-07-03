@@ -15,18 +15,16 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// Screens
 import Homepage from '../screens/Home/Homepage';
 import Profile from '../screens/Profiles/Profile';
 import ListProduct from '../screens/Products/Products';
 import DetailProduct from '../screens/Products/DetailProducts';
 import FavouriteProducts from '../screens/Products/FavouriteProducts';
-import ProductCart from '../screens/Products/ProductCart'; // 🔥 Add your cart screen here
+import ProductCart from '../screens/Products/ProductCart';
 import { useSelector } from 'react-redux';
 import CheckoutPage from '../screens/Products/CheckoutPage';
 import { Product } from '../redux/slices/cartSlice';
 
-// Types
 export type RootTabParamList = {
   Homepage: undefined;
   ListProduct: undefined;

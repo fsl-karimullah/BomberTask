@@ -121,7 +121,7 @@ const Products: React.FC = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('https://dummyjson.com/products/categories');
+      const res = await axios.get(endpoint.getAllCategory);
       const allCategory: Category = {
         slug: 'all',
         name: 'All',
@@ -133,19 +133,20 @@ const Products: React.FC = () => {
     }
   };
 
-  const fetchAllProducts = async () => {
-    try {
-      const res = await axios.get('https://dummyjson.com/products?limit=0');
-      const allProductsData = res.data.products || [];
-      setAllProducts(allProductsData);
-      setAllProductsLoaded(true);
-      setTotalProducts(res.data.total || 0);
-      return allProductsData;
-    } catch (error) {
-      console.error('Error fetching all products:', error);
-      return [];
-    }
-  };
+ const fetchAllProducts = async () => {
+  try {
+    const res = await axios.get(endpoint.getProductPagination(0, 0));
+    const allProductsData = res.data.products || [];
+    setAllProducts(allProductsData);
+    setAllProductsLoaded(true);
+    setTotalProducts(res.data.total || 0);
+    return allProductsData;
+  } catch (error) {
+    console.error('Error fetching all products:', error);
+    return [];
+  }
+};
+
 
   const LIMIT = 10;
 
@@ -164,7 +165,7 @@ const Products: React.FC = () => {
       const currentSkip = initial ? 0 : skip;
 
       const res = await axios.get(
-        `https://dummyjson.com/products?limit=${LIMIT}&skip=${currentSkip}`,
+        endpoint.getProductPagination(LIMIT, currentSkip),
       );
 
       const fetched = res.data.products;
@@ -214,7 +215,7 @@ const Products: React.FC = () => {
       const currentSkip = initial ? 0 : skip;
 
       const res = await axios.get(
-        `https://dummyjson.com/products/category/${categorySlug}?limit=${LIMIT}&skip=${currentSkip}`,
+        endpoint.getProductByCategory(categorySlug, LIMIT, currentSkip),
       );
 
       const fetched = res.data.products;

@@ -1,4 +1,3 @@
-// redux/slices/cartSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type Product = {
@@ -7,7 +6,7 @@ export type Product = {
   price: number;
   thumbnail: string;
   category?: string;
-  quantity?: number; // Add this
+  quantity?: number; 
 };
 
 type CartState = {
@@ -41,7 +40,6 @@ const cartSlice = createSlice({
       if (item && item.quantity && item.quantity > 1) {
         item.quantity -= 1;
       } else {
-        // Optionally remove item if quantity drops to 0
         state.items = state.items.filter(i => i.id !== action.payload);
       }
     },

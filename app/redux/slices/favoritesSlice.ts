@@ -1,4 +1,3 @@
-// redux/slices/favoritesSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { saveFavoritesToStorage } from '../../utils/storage'; 
 

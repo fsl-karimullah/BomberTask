@@ -93,7 +93,6 @@ const FavouriteProducts = () => {
         contentContainerStyle={{ paddingVertical: 10 }}
       />
 
-      {/* Confirmation Modal */}
       <Modal
         transparent
         visible={modalVisible}
@@ -191,7 +190,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     justifyContent: 'center',
   },
-  // Modal styles
   modalOverlay: {
     flex: 1,
     justifyContent: 'center',
